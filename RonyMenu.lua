@@ -349,21 +349,13 @@ local function Fire(aimPos)
 
     local remote = GetRemote()
 
-    -- Camada 1: CheckFire RemoteEvent (método principal do jogo)
+    -- Método único: FireServer direto no RemoteEvent do jogo
+    -- NÃO usa mouse1click() nem VIM — esses roubam o controle do jogador
     if remote then
         pcall(function()
             remote:FireServer(now, Vector3.new(aimPos.X, aimPos.Y, aimPos.Z))
         end)
     end
-
-    -- Camada 2: mouse1click (executor nativo)
-    pcall(function() mouse1click() end)
-
-    -- Camada 3: VirtualInputManager touch (mobile)
-    pcall(function()
-        VIM:SendMouseButtonEvent(0, 0, 0, true,  game, 1)
-        VIM:SendMouseButtonEvent(0, 0, 0, false, game, 1)
-    end)
 end
 
 -- Kill Aura — dispara em todos no range simultaneamente
@@ -944,7 +936,7 @@ end)
 --  FLUENT MENU
 -- ═══════════════════════════════════════
 local Win = Fluent:CreateWindow({
-    Title="Rony Menu  |  v1", SubTitle="Farm • Steering • Predict • 360°",
+    Title="Ghost Aim  |  v12", SubTitle="Farm • Steering • Predict • 360°",
     TabWidth=160, Size=UDim2.fromOffset(600,500), Acrylic=false, Theme="Dark",
 })
 local T = {
@@ -1124,7 +1116,7 @@ if Cfg.BotOn then StartBot() end
 
 task.delay(1.5, function()
     Fluent:Notify({
-        Title   = "RONY MENU",
+        Title   = "Ghost Aim v12",
         Content = "Farm • Steering • Predict dt-based • RP cacheado • Fire 3 camadas",
         Duration = 6,
     })
